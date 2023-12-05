@@ -5,8 +5,12 @@ services:
   web:
     image: nginx:latest
     ports: 
-      - "80:80"
+      - "81:80"
     restart: always 
+
+  app:
+      build:
+            dockerfile: ./php/DockerFile
   #php
   #mysql
   #redis

@@ -1,0 +1,13 @@
+#to create any image we need base image
+#here we use base image 8.3.0-fpm-alpine
+#we write in this form php:8.3.0-fpm-alpine , because php: here vendor name we have to wirte it always firt while using package as base iamge
+#here fpm means compatiable with ngix php: means first vendor name here php
+FROM php:8.3.0-fpm-alpine
+
+
+# docker-php-ext-install to install php extanition
+RUN docker-php-ext-install pdo pdo_mysql
+
+
+# for mysqli if you want
+# RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
