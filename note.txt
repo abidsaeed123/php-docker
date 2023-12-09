@@ -1,0 +1,80 @@
+Docker 
+
+docker compose up
+#to start docker compose (for default docker-composer.yml)
+When you run docker-compose up without the -d flag, it starts the services in the foreground, and you see the logs of each service in your terminal.
+It's useful for debugging, monitoring, and seeing real-time logs from your services.
+If you terminate the command (e.g., by pressing Ctrl+C), it will stop the running services.
+
+
+
+
+docker-compose up -d
+When you run docker-compose up -d, it starts the services in the background (detached mode), and you don't see the logs in your terminal.
+It's typically used in production or when you want to run your services in the background without tying up your terminal.
+If you terminate your terminal session, the services will keep running.
+ If you use docker-compose up -d, you can still view the logs later using docker-compose logs.
+
+Remember that both commands (docker-compose up -d,  docker-compose up) will read your docker-compose.yml file and start the defined services along with any associated configurations. 
+
+
+
+
+docker ps
+#to check which containers are running
+
+
+
+docker compose ps
+#to check which services are running and which parts of networks
+# and so let's
+
+
+
+docker exec -it docker-php_web_1 sh
+#to execute shall comand on specif container 
+here docker-php_web_1 is container name
+exec means execute 
+it mean interactive
+sh mean shall
+
+after running above command there will be little hash threre to enter input
+to print the content of the existing file
+after above command
+#cat /etc/nginx/conf.d/default.conf
+
+
+
+
+
+
+
+docker build --no-cache -t abc123:php83 -f php/DockerFile .
+#to buid own custom image docker image
+
+
+
+
+
+
+
+
+
+
+________________________________________________
+
+
+docker  run packer:version
+______________
+all runing images shows
+docker ps
+
+__________________________________________________________________________
+
+docker --version
+
+docker pull ubuntu
+
+
+
+
