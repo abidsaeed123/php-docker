@@ -24,6 +24,10 @@ docker ps
 #to check which containers are running
 
 
+docker ps -a 
+This command is used to list all of the containers on the system
+
+
 
 docker compose ps
 #to check which services are running and which parts of networks
@@ -43,6 +47,15 @@ to print the content of the existing file
 after above command
 #cat /etc/nginx/conf.d/default.conf
 
+
+
+
+docker exec -it docker-php-web-1 /bin/bash:
+
+This command runs an interactive Bash shell (/bin/bash) inside the specified Docker container (docker-php-web-1).
+Bash is a popular shell with many features and functionalities, and it provides a more interactive and user-friendly environment compared to a simple sh shell.
+
+In most cases, using /bin/bash allows you to work in an environment with more features and a familiar command-line interface. However, if your container has a minimal environment or if you prefer to use a simpler shell, you can use sh.
 
 
 

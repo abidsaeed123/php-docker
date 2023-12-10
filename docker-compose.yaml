@@ -8,9 +8,29 @@ services:
       - "81:80"
     restart: always 
 
+    #there are two way to links your file with ocntainer or copaing your file into container and replace
+    #best is docker copy but it will accurate to use it while production
+    #here we map our files with container's files not copying beachuese we mainwhile we are working with our fiiles
+    #so that's way we use volume to map our files wiht container's files
+
+    volumes:
+      - ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+
+    #here /etc is used in Linix for folder that contain configraution
+    #inside of it we create a folder nginx
+
+
   app:
       build:
-            dockerfile: ./php/DockerFile
+            dockerfile: ./php/DockerFile      
+      volumes:
+        - ./app:/app
+
+        #./app:/app
+        #./app in the hostmachine will map to our app (folder) in the root directory 
+
+
+
   #php
   #mysql
   #redis
