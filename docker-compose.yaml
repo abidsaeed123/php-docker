@@ -6,7 +6,7 @@ services:
     image: nginx:latest
     ports: 
       - "81:80"
-    restart: always 
+    restart: unless-stopped
 
     #there are two way to links your file with ocntainer or copaing your file into container and replace
     #best is docker copy but it will accurate to use it while production
@@ -19,7 +19,7 @@ services:
     #here /etc is used in Linix for folder that contain configraution
     #inside of it we create a folder nginx
 
-
+  #php
   app:
       build:
             dockerfile: ./php/DockerFile      
@@ -28,9 +28,62 @@ services:
 
         #./app:/app
         #./app in the hostmachine will map to our app (folder) in the root directory 
-
-
-
-  #php
+  
   #mysql
+  db:
+    image: mysql:8.0
+    # image: mysql:latest
+    volumes:
+      # this maping is little bit differnet than last one in last we define folder but here we let docker decide 
+      # to do this more sufficient way of doing it because it's not files which i acuttly want to be part of my projects
+      # and not something i want to add in gitignore  
+      # and so the way i am going to do this here means that i will aculally have to do that and docker will take care of handling it
+      # wher i puts and it will optimize my system
+      - mysqldata:/var/lib/mysql
+      # /var/lib/mysql so here it's the pat in container 
+    ports:
+      - "3307:3306"
+    restart: unless-stopped
+      # restart: always
+      # this quite comman for lot of contaier you want to sure that they're up and running all the time
+      # always: there are option to say always but i tend not to use this in my development envioremtnet (it should be used while production)
+      # becasue it sort of becomes like a Hydra i can nver kill the container 
+      # so for developemetn the best is use unless-stopped
+      # so if anything goes wrong it will resarte to stop this we use unless-stopped means not stop unless we not stopped it physically
+    
+    # next we need to pass some information to mySQL such as the user,password, db for that we use environment variables
+    environment:
+    # you can docker hub there they here search for mysql and in mysql image they define varibel name only those we can use it there
+      MYSQL_DATABASE: docker-php
+      MYSQL_ROOT_PASSWORD: root
+      # MYSQL_HOST: 127.0.0.1
+      # MYSQL_PORT: 3306
+      # MYSQL_USER: root2
+      # MYSQL_PASSWORD: root2
+      # MYSQL_ALLOW_EMPTY_PASSWORD:
+
+
   #redis
+
+
+  
+
+# after that we need to create a volume key at same level at we have services key
+
+volumes:
+  mysqldata:
+  # if we just leave it as it  
+  # mysqldata: 
+  # then docker will figure out best way and best place to put this data but 
+  # the most imporant thing for us to know about this is that our data will be preserved in between eachtime that
+  # we spin up Docker compose 
+
+
+
+
+
+
+
+
+
+
