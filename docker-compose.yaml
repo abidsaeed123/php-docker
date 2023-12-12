@@ -21,10 +21,24 @@ services:
 
   #php
   app:
-      build:
-            dockerfile: ./php/DockerFile      
-      volumes:
-        - ./app:/app
+    build:
+      dockerfile: ./php/DockerFile      
+    volumes:
+
+      - /var/www/html/vendor # there only one path it is not for map it for protection mean if we put anything repalce anything inside **/var/www/html** it will not overrite **vendor** folder
+        #after sepcify only single path means i want to protect above path
+        # means as below - ./app:/var/www/html this will mirror every file into /var/www/html
+        # so to previetn vendor folder we did this
+          # -- there are two ways for doing this this approch just for develoment for production we will use another approch      
+          # for production we will copy the files they'll get copied into the container and they won't need to be touched again once
+          # they're in the container in production 
+            # so the reason of using this maping instead of copy here it's that when we change anything it will straignt way refeclted instead of build again
+
+
+
+
+
+      - ./app:/var/www/html
 
         #./app:/app
         #./app in the hostmachine will map to our app (folder) in the root directory 

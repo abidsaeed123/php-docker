@@ -7,7 +7,7 @@ It's useful for debugging, monitoring, and seeing real-time logs from your servi
 If you terminate the command (e.g., by pressing Ctrl+C), it will stop the running services.
 
 
-
+__________________________________________________________________________
 
 docker-compose up -d
 When you run docker-compose up -d, it starts the services in the background (detached mode), and you don't see the logs in your terminal.
@@ -17,23 +17,32 @@ If you terminate your terminal session, the services will keep running.
 
 Remember that both commands (docker-compose up -d,  docker-compose up) will read your docker-compose.yml file and start the defined services along with any associated configurations. 
 
+__________________________________________________________________________
 
+docker-compose up --build -d
+--build means this will look for DockerFile
+
+
+
+__________________________________________________________________________
 
 
 docker ps
 #to check which containers are running
 
+__________________________________________________________________________
 
 docker ps -a 
 This command is used to list all of the containers on the system
 
-
+__________________________________________________________________________
 
 docker compose ps
 #to check which services are running and which parts of networks
 # and so let's
 
 
+__________________________________________________________________________
 
 docker exec -it docker-php_web_1 sh
 #to execute shall comand on specif container 
@@ -42,12 +51,26 @@ exec means execute
 it mean interactive
 sh mean shall
 
-after running above command there will be little hash threre to enter input
-to print the content of the existing file
-after above command
+-------------------------------------------------
+
 #cat /etc/nginx/conf.d/default.conf
 
+after running command (docker exec -it docker-php_web_1 sh) there will be little hash threre to enter input
+to print the content of the existing file
+after above command
 
+-------------------------------------------------
+
+#ls -la
+
+The ls -la command is used to list detailed information about files and directories in a directory. Here's a breakdown of the options:
+l: This option stands for "long format" and provides detailed information about each file, including permissions, number of links, owner, group, size, and modification time.
+a: This option stands for "all" and includes entries that start with a dot (.), which are normally hidden from ls listings. Files and directories that start with a dot are often considered as hidden in Unix-like systems.
+
+
+
+
+__________________________________________________________________________
 
 
 docker exec -it docker-php-web-1 /bin/bash:
@@ -58,14 +81,14 @@ Bash is a popular shell with many features and functionalities, and it provides 
 In most cases, using /bin/bash allows you to work in an environment with more features and a familiar command-line interface. However, if your container has a minimal environment or if you prefer to use a simpler shell, you can use sh.
 
 
-
+__________________________________________________________________________
 
 
 
 docker build --no-cache -t abc123:php83 -f php/DockerFile .
 #to buid own custom image docker image
 
-
+__________________________________________________________________________
 
 
 

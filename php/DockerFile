@@ -11,3 +11,69 @@ RUN docker-php-ext-install pdo pdo_mysql
 
 # for mysqli if you want
 # RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+
+
+
+# allow super user - set this if you use Composer as a
+# super user at all times like in docker containers
+ENV COMPOSER_ALLOW_SUPERUSER=1
+# now we want to obtain composer we actually want it insisde our image of 
+# our container not inside its own container
+# for that we are goining getting a image and copying it into our own
+# we can do this like, for this we are going to getting image and copying it our own
+
+
+
+
+# obtain composer using multi-stage build
+# https://docs.docker.com/build/building/multi-stage/
+COPY --from=composer:2.4 /usr/bin/composer /usr/bin/composer
+# Copy means copy image
+# --from means from here from image compsoer:2.4
+# /usr/bin/composer this ithe compser past
+# /usr/bin/composer  it our own path
+
+
+
+
+#Here, we are copying only composer.json and composer.lock (instead of copying the entire source)
+# right before doing composer install.
+# This is enough to take advantage of docker cache and composer install will
+# be executed only when composer.json or composer.lock have indeed changed!-
+# https://medium.com/@softius/faster-docker-builds-with-composer-install-b4d2b15d0fff
+
+# now to copy my compser.json and my compsoer.lock files
+# the reason i am doing this is to take advantage of the docker cache because
+# when it see that something has changed it will rebuild the entire image from that step to own words
+# so when it see nothing has changed then it will grap path from cache
+# so composer install will be executed only if there are cahgen in composer.json and composer.lock
+
+COPY ./app/composer.* ./
+# ./app/composer.* this is our own path
+# here * in composer.* means composer.lock or composer.json
+# ./ this is the path in the container
+
+
+
+# install
+RUN composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
+# RUN is used to execute any command of teh current image
+# is running the composer install command with specific options. Let's break down each option:
+# --prefer-dist: Composer will try to install the distribution (i.e., pre-packaged archive) of the package if possible, rather than cloning the source repository.
+# --no-dev: Composer will not install packages listed in the require-dev section of the composer.json file. This is useful in production environments where development dependencies are not needed.
+# --no-scripts: Composer will not execute scripts defined in the composer.json file. This is often used in production to speed up the installation process and avoid running unnecessary scripts.
+# --no-progress: Composer will not show progress bars during the installation process.
+# --no-interaction: Composer will not ask for any interactive input and will use default values for any prompts.
+
+
+
+
+
+
+
+
+# copy application files to the working directory
+COPY ./app .
+
+# run composer dump-autoload --optimize
+RUN composer dump-autoload --optimize
