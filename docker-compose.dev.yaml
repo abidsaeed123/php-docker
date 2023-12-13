@@ -23,14 +23,36 @@ services:
   #php
   app:
     build:
+      # when we build this file this will look inside context insdie build:
+      # but here we did not mention context so it this will use folder where this dockerfile is in as context
+      # that way we use      COPY ./app/composer.* ./      inside ./php/Dockerfile
+      # we can't use it       COPY ../app/composer.* ./   like here means we can't use ../app configs:
       dockerfile: ./php/DockerFile      
+      ## env environment varible 
+      # becasue this service ish is responsidlbe for handling the appplication code
+      # that's way  we defien here environment variables
+      # thse environment variables we can use inside our application
+      # if you notice there are env varilabe inside db services mysql
+      # but those just for that services mean we can not use them iside our application
+    environment:
+      MYSQL_HOST: db
+      # please note here we use db this db, because it's name of service db just like IP address
+      # inside of services we can mention any service any where like db, that will find it's self without anyother extra configration
+
+      # MYSQL_PORT: 3306
+      MYSQL_PORT: ${MYSQL_PORT}
+      # ${MYSQL_PORT} : here we write it like ${MYSQL_PORT} but if we write $MYSQL_PORT then this will also wokred
+      # the reason behind writing like that ${MYSQL_PORT} that because if there are string so it can used as quote
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       # - /var/www/html/vendor
       # we remove this in development staging
       # - ./app:/var/www/html
       #
       - ./app:/app # in production we replace this /app with this  /var/www/html
-        #./app in the hostmachine will map to our app (folder) in the root directory 
+        # ./app in the hostmachine will map to our app (folder) in the root directory 
       # 
   #mysql
   db:
@@ -57,8 +79,8 @@ services:
     # next we need to pass some information to mySQL such as the user,password, db for that we use environment variables
     environment:
     # you can docker hub there they here search for mysql and in mysql image they define varibel name only those we can use it there
-      MYSQL_DATABASE: docker-php
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD:  ${MYSQL_PASSWORD}
       # MYSQL_HOST: 127.0.0.1
       # MYSQL_PORT: 3306
       # MYSQL_USER: root2

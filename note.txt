@@ -40,6 +40,21 @@ docker-compose -f docker-compose.dev.yaml up --build -d
 -d: This option is used to run the containers in the background (detached mode), allowing you to continue using the terminal for other commands.
 
 
+--------------------------------------------------------------------------------------------------
+
+.env 
+
+docker-compose -f docker-compose.dev.yaml up --env-file env.dev
+
+--env-file: most we use single one .env file for both development and production envorment but there might be different env files for production and development staging for that 
+like .env for production and .env.dev for development for that we will mention which env file is use with --env-file
+
+--------------------------------------------------------------------------------------------------
+
+NOTE: with lot of cloud computing solutions we even dont need env file, there we can enter our env variable 
+           using user interface
+
+--------------------------------------------------------------------------------------------------
 
 __________________________________________________________________________
 
@@ -138,3 +153,43 @@ thatway
 docker-compose.dev.yaml for develoment
 docker-compose.yaml for production
 but letter will learn learn about overrite which is better technique here
+
+
+__________________________________________________________________________
+
+in php/DockerFile 
+where this line
+
+RUN composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
+
+--no-dev means it  will not installed any dev dependencies 
+but here we wnat to install dependencies 
+
+other method is 
+we will install compose into dirctory and COPY and Volumen just repale and mapt thees into contianer's dirctor 
+so for that
+cd app
+composer install --ignore-platform-req
+
+-------------------------------------------------
+
+composer install --ignore-platform-req
+
+--ignore-platform-req this means ignore platform requirement
+                      i use it because if i not use it will see my system's php version if it is diffetn then composer.json then it will
+                      create problem beacues we use docker here and it's contaienr will handle it so not to match composer.json php version with my system
+
+
+
+__________________________________________________________________________
+
+we crate .env file in root level bacasue there docker-compose file is existing
+
+
+
+
+
+
+
+
+
