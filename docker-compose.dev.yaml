@@ -1,12 +1,10 @@
-# This file for production
+# This file for development
 services:
 
   #nginx
 
   web:
     image: nginx:latest
-    build: 
-      dockerfile: ./nginx/DockerFile
     ports: 
       - "81:80"
     restart: unless-stopped
@@ -27,21 +25,13 @@ services:
     build:
       dockerfile: ./php/DockerFile      
     volumes:
-
-      - /var/www/html/vendor # there only one path it is not for map it for protection mean if we put anything repalce anything inside **/var/www/html** it will not overrite **vendor** folder
-        #after sepcify only single path means i want to protect above path
-        # means as below - ./app:/var/www/html this will mirror every file into /var/www/html
-        # so to previetn vendor folder we did this
-          # -- there are two ways for doing this this approch just for develoment for production we will use another approch      
-          # for production we will copy the files they'll get copied into the container and they won't need to be touched again once
-          # they're in the container in production 
-            # so the reason of using this maping instead of copy here it's that when we change anything it will straignt way refeclted instead of build again
-
-
-
-      - ./app:/var/www/html
+      # - /var/www/html/vendor
+      # we remove this in development staging
+      # - ./app:/var/www/html
+      #
+      - ./app:/app # in production we replace this /app with this  /var/www/html
         #./app in the hostmachine will map to our app (folder) in the root directory 
-  
+      # 
   #mysql
   db:
     image: mysql:8.0
@@ -54,6 +44,8 @@ services:
       # wher i puts and it will optimize my system
       - mysqldata:/var/lib/mysql
       # /var/lib/mysql so here it's the pat in container 
+    ports:
+      - "3307:3306"
     restart: unless-stopped
       # restart: always
       # this quite comman for lot of contaier you want to sure that they're up and running all the time
@@ -63,10 +55,16 @@ services:
       # so if anything goes wrong it will resarte to stop this we use unless-stopped means not stop unless we not stopped it physically
     
     # next we need to pass some information to mySQL such as the user,password, db for that we use environment variables
+    environment:
+    # you can docker hub there they here search for mysql and in mysql image they define varibel name only those we can use it there
+      MYSQL_DATABASE: docker-php
+      MYSQL_ROOT_PASSWORD: root
+      # MYSQL_HOST: 127.0.0.1
+      # MYSQL_PORT: 3306
+      # MYSQL_USER: root2
+      # MYSQL_PASSWORD: root2
+      # MYSQL_ALLOW_EMPTY_PASSWORD:
 
-    # here we remove port and envoiroment sesion here
-    # port becasue we dont want to exposr our client
-    # environmer for that we will use env file later
 
   #redis
 

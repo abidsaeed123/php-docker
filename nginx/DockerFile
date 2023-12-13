@@ -1,0 +1,19 @@
+FROM nginx:latest
+# here we use latest instad of othoer node like 1.22 like 
+# beacues with latest with face laser issude like image are compatible with other 
+# servicees or images
+
+
+# same we use voluem in devlopmetn -- volumes: ./nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+COPY ./nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
+
+
+# this wee need to copy our public dircory wher our index.php file to location inside condtainer
+COPY ./app/public /var/www/html/public
+
+
+
+
+
+
+

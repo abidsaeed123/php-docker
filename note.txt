@@ -17,10 +17,27 @@ If you terminate your terminal session, the services will keep running.
 
 Remember that both commands (docker-compose up -d,  docker-compose up) will read your docker-compose.yml file and start the defined services along with any associated configurations. 
 
-__________________________________________________________________________
+--------------------------------------------------------------------------------------------------
+
 
 docker-compose up --build -d
+
 --build means this will look for DockerFile
+
+--------------------------------------------------------------------------------------------------
+
+docker-compose -f docker-compose.dev.yaml up --build -d 
+
+
+
+-f docker-compose.dev.yaml: Specifies the YAML file to be used. In this case, it's docker-compose.dev.yaml.
+                                                but if it default docker-compose.yaml then we donet need to spedifiy, 
+                                                we only need to spciry file name when it is deffent like here
+
+--build: This option is used to build the images before starting the containers. It's helpful when you've made changes to your Dockerfile or the application code, 
+             and you want to ensure that you are using the latest version.
+             
+-d: This option is used to run the containers in the background (detached mode), allowing you to continue using the terminal for other commands.
 
 
 
@@ -113,4 +130,11 @@ docker pull ubuntu
 
 
 
+__________________________________________________________________________
 
+before that there was a single file docker-compose.yaml
+but i wnat to use different files for production and developmetn 
+thatway
+docker-compose.dev.yaml for develoment
+docker-compose.yaml for production
+but letter will learn learn about overrite which is better technique here
