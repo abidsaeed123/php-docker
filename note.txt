@@ -186,9 +186,10 @@ __________________________________________________________________________
 we crate .env file in root level bacasue there docker-compose file is existing
 
 
+__________________________________________________________________________
 
-
-
+Redis
+    Redis is in memory data storage 
 
 
 
