@@ -2,11 +2,31 @@
 #here we use base image 8.3.0-fpm-alpine
 #we write in this form php:8.3.0-fpm-alpine , because php: here vendor name we have to wirte it always firt while using package as base iamge
 #here fpm means compatiable with ngix php: means first vendor name here php
-FROM php:8.3.0-fpm-alpine
+FROM php:8.3.0-fpm-alpine as app
+# for multi-build we use as app alies so that we can give referrence this to other build
 
 
-# docker-php-ext-install to install php extanition
-RUN docker-php-ext-install pdo pdo_mysql
+
+# Useful PHP extension installer image, copy binary into your container
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+# it's a php extanition installer and so this will really help us
+# because xdebug is required a lot of other extensions and a lot of other software to be installed 
+# in order to install xdebuger but with this php extension installer it can take care of all these staff
+# we have to run just a simple command
+
+
+
+
+
+# # docker-php-ext-install to install php extanition
+# RUN docker-php-ext-install pdo pdo_mysql
+
+# so with above php-extension-installer this would be like
+RUN set -eux; \
+    install-php-extensions pdo pdo_mysql;
+# -eux it is a linix command it's means exit on errors exit on any unset variables
+# and print every command as it is executed
+
 
 
 # for mysqli if you want
@@ -77,3 +97,60 @@ COPY ./app .
 
 # run composer dump-autoload --optimize
 RUN composer dump-autoload --optimize
+
+
+# multi-stage builds
+# it's little bit difficult to understand
+# becausely whe we doing here From base image then we add other layers to it
+# multi-stage builds
+# it's little bit difficult to understand
+# becausely whe we doing here From base image then we add other layers to it
+
+
+# Dev image
+# This stage is meant to be target-built into a separate image
+# https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
+# https://docs.docker.com/compose/compose-file/#target
+FROM app as app_dev
+# here we use app_dev as allies we can use any name here
+# one resise choseing this allies app_dev we will use it for development purpose
+# one reason for multi-stage build is that if we dont want run one 
+# build for exemple this part is ony for development not for production 
+# because we will install dependencies or extensions which only for development
+# simple can not run this build
+ 
+
+#  Xdebug has different functionalities we can use as profiler, step debugger
+#  or we can et it off because it can be quite process heavy and quite instrusive
+#  so default we set debug mode off
+
+
+
+# Xdebug has different modes / functionalities. We can default to 'off' and set to 'debug'
+# when we run docker compose up if we need it
+ENV XDEBUG_MODE=off
+# here we use env varialbe, there we set default value off,
+# as it is env variable so in env we can set it's value whatever we what
+# let for enable debuging we can set it's value in evn debug
+
+
+# php configrations for xdebuger to work
+# we have to crate ini file which will have some settings below its the path of that file
+# Copy xdebug config file into container
+COPY ./php/conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+# there we are doing some special PHP configrations in order to X deuger to work
+# here are going to create .ini file which has some settings inside it
+
+
+
+
+# here we install xdebuger
+# Install xdebug
+RUN set -eux; \
+	install-php-extensions xdebug
+
+
+
+
+

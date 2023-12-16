@@ -25,7 +25,8 @@ services:
   #php
   app:
     build:
-      dockerfile: ./php/DockerFile      
+      dockerfile: ./php/DockerFile   
+      target: app   
     volumes:
 
       - /var/www/html/vendor # there only one path it is not for map it for protection mean if we put anything repalce anything inside **/var/www/html** it will not overrite **vendor** folder

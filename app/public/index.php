@@ -1,5 +1,10 @@
 <?php
 
+// xdebug_info();
+// after write this you can ensure that X debug is installed or not
+
+
+
 use App\Repository\TranslationRepository;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';

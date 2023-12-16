@@ -56,6 +56,15 @@ NOTE: with lot of cloud computing solutions we even dont need env file, there we
 
 --------------------------------------------------------------------------------------------------
 
+passing an envorment variable through comand line
+
+$env:VAR1="value1"; $env:VAR2="value2"; docker compose -f docker-compose.yml up -d
+
+$env:XDEBUG_MODE="debug"; docker compose -f docker-compose.dev.yaml up -d      
+
+XDEBUG_MODE=debug: it is env variable and we have passed through command line
+it mean instead of defined variables in .env sometime we can defined them in command line
+
 __________________________________________________________________________
 
 
@@ -190,6 +199,20 @@ __________________________________________________________________________
 
 Redis
     Redis is in memory data storage 
+
+__________________________________________________________________________
+
+X debuger
+
+it can be use as a step debugger but i can also be used as
+profiler and varieous other things 
+
+
+
+google crome extension: there are a google crome extension of x debugger you can install it and 
+                        set host like vs-code or other code editon
+
+
 
 
 

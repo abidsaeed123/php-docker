@@ -28,7 +28,18 @@ services:
       # but here we did not mention context so it this will use folder where this dockerfile is in as context
       # that way we use      COPY ./app/composer.* ./      inside ./php/Dockerfile
       # we can't use it       COPY ../app/composer.* ./   like here means we can't use ../app configs:
-      dockerfile: ./php/DockerFile      
+      dockerfile: ./php/DockerFile 
+      # multi-stage build
+      target: app_dev
+      # here you can see that we use targe --app_dev-- it mean build
+      # it wll build all the above build of the dockerFile up this build app_dve
+      # I mean that the Docker build process includes all stages from the beginning 
+      # of the Dockerfile up to and including the specified target stage. 
+      # It doesn't skip or exclude any stages in between.
+
+
+
+
       ## env environment varible 
       # becasue this service ish is responsidlbe for handling the appplication code
       # that's way  we defien here environment variables
@@ -49,6 +60,21 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       REDIS_HOST: cache # cache it's  name of the service, we can use it's name as it as above mentioned
       REDIS_PORT: ${REDIS_PORT}
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+      # XDEBUG_MODE:-off this mean if we dont have XDEBUG_MODE variable in envorinment then it value is off
+      # this thing we can do with command line also
+    extra_hosts:
+      # Ensure that host.docker.internal is correctly defined on Linux
+      - host.docker.internal:host-gateway
+      # host.docker.internal, we have mentions it's details in xdebug.ini file
+      # ther pupose of using this in this docker-compose file that
+      # this will use with LINUX
+      # sow if we work with linix 
+      # then we have to define this extra_host here in order to this host.docker.internal to define for linix
+
+
+    
+    
     volumes:
       # - /var/www/html/vendor
       # we remove this in development staging
@@ -57,6 +83,13 @@ services:
       - ./app:/app # in production we replace this /app with this  /var/www/html
         # ./app in the hostmachine will map to our app (folder) in the root directory 
       # 
+      # for X debugger
+      - ./php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro
+      # ro means read only
+      # because this is not something we want to write to in our container
+      # we are just just set our configration and we are happy with it
+
+
 
 
   #mysql
@@ -112,7 +145,7 @@ volumes:
   # we spin up Docker compose 
 
 
-
+ 
 
 
 
