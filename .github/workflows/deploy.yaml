@@ -1,0 +1,36 @@
+name: TranslateThis # it is the name of the action
+
+on: # it the action on whcih this aciton will profom
+    push:
+        branches:
+            - main
+
+jobs: # this is the job and we can have mutlipe jobs
+    build: #this is the name of the job
+        runs-on: ubuntu-latest #it is a runner, from gitHub docs runner is a server
+                                # that run your workflow when they're trigged. Each runner can run a single
+                                #  job at a time. Github provies Ubuntu Linux, Microsoft Windows, and macOS runners to run your workflows.
+        steps:
+            - uses: actions/checkout@v3 # An action is a custom application for the GitHub Actions platform
+                                        # that performs a complex but frequently repeated tasks.
+                                        # someone's gone to the trouble of creating an action which will do it for us
+                                        # and so that's way we are using this 
+              # so these are the step we will perform we can name them like blow which makes things quite self-explanatory here we
+              # this will create install composer and then perform tests 
+              # note one thing this composer wlll not insall inside our container we are not doing this becasue h
+              # we are running this with our dev dependencies and we dont want to install dev dependencies inside our container
+
+            - name: Install Composer Dependencies
+              working-directory: ./app
+              run: composer install --prefer-dist
+            - name: Run Tests
+              working-directory: ./app
+              run: composer run-phpunit
+            - run: docker build --target app -t garyclarke/php-composer:1.2 -f ./php/Dockerfile . # it will build our image which we need before push it on docker hub, we have discuessed it a lot while --push-image-- 
+                                                                                                  # note one thing we have used :1.2 versions number so each time we can change it if we want  
+            - run: docker build -t garyclarke/nginx-php:1.0 -f ./nginx/Dockerfile .
+            - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} #here we provide our credentials to login to docker hub
+                                                                                                    # here DOCKER_USERNAME, DOCKER_PASSWORD these are secret varaibles which we define them on github >settings > secrets and variable > New repsoity vairalbe
+                                                                                                    # -u means username and -p means password
+            - run: docker push garyclarke/php-composer:1.2 # hre we are pushing our changes to docker push
+            - run: docker push garyclarke/nginx-php:1.0 

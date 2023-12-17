@@ -275,6 +275,44 @@ docker push abidsaeed/php-composer:1.0
 this is the command to push docker image
 
 
+________________________________________________________________________________________________
 
+
+GitHub actions:
+
+
+on merge into main, we want to 
+-Run the tests
+-Build our two images
+-Login to the registry
+-Push our built images to the registry
+
+-irl we would then deploy our code to whatever cloud serve we use
+
+
+settign gitHub actions
+
+to set gitHub actions to follow these steps
+
+1.open your project repostiry 
+2.then click on settigns
+3.then go to Secrets and variables
+4.then select Actions
+5.then click New repository secret
+->add two repositry secret
+    -->DOCKER_USERNAME put your  docker->username
+    -->DOCKER_PASSWORD put your docker->password
+
+6. next we need to create a file which GitHub actions will read in order to perform
+{
+          on merge into main, we want to 
+          -Run the tests
+          -Build our two images
+          -Login to the registry
+          -Push our built images to the registry
+}
+these steps
+ to create a action file we will create .github>workflows inside it we will create a yaml file 
+we can give any name whcih we want and we can create multiple yaml file github will read all of them one by one
 
 
