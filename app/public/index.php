@@ -18,16 +18,16 @@ $client = \Symfony\Component\Cache\Adapter\RedisAdapter::createConnection(
 
 $cacheAdapter = new \Symfony\Component\Cache\Adapter\RedisAdapter($client);
 
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-//     $translationCache = new \App\Cache\TranslationCache($cacheAdapter, new TranslationRepository());
-//     $translation = $translationCache->findForLanguage($_POST['language'], $_POST['phrase']) ?: 'Translation not found...';
+    $translationCache = new \App\Cache\TranslationCache($cacheAdapter, new TranslationRepository());
+    $translation = $translationCache->findForLanguage($_POST['language'], $_POST['phrase']) ?: 'Translation not found...';
 
-// } else {
+} else {
 
-//     $languageRepository = new \App\Repository\LanguageRepository();
-//     $languages = $languageRepository->findAll();
-// }
+    $languageRepository = new \App\Repository\LanguageRepository();
+    $languages = $languageRepository->findAll();
+}
 
 ?>
 

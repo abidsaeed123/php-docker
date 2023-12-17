@@ -23,6 +23,9 @@ services:
 
   #php
   app:
+    # here we are build our image each time --build it will look side dockerFile
+    # it is good approch instead of it we should rgister and push our image in docker hub registry
+
     build:
       # when we build this file this will look inside context insdie build:
       # but here we did not mention context so it this will use folder where this dockerfile is in as context

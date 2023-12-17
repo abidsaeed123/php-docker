@@ -234,6 +234,46 @@ google crome extension: there are a google crome extension of x debugger you can
                         set host like vs-code or other code editon
 
 
+________________________________________________
+
+Pushing to a Container Registry
+
+for push to remote registory, we don't have to use the docker Hub registry
+indeed GitHub has its own container registry
+-->ghcr which stand for GitHub container registry
+but here we will use docker hub registry, becasue we have already have a account there
+
+-->docker Hub registry
+ it is vary usefull, it is liek remote repository like GitHub or bit bucker 
+but specifically for containers
+
+________________________________________________
+Push images to docker hub image
+
+for push image we use this command
+
+first login to docker hub resgith through command line
+docker login -u username
+after that
+password:
+after that there will be a message on successful login
+
+------------------------------------------------------------------------------
+
+
+docker build --target app -t abidsaeed/php-composer:1.0 -f ./php/DockerFile .
+
+--target: for multi-stage build we specify target
+-t: here we are tagging it like abidsaeed/php-composer:1.0, it is the repository and name of the image
+:1.0 is the version, on file change we can change it, furtuer information you can find on docker hub registry
+-f : it specify the dokcerFile from which we are building image
+. : there is last . which mean in what context rght now we are mean folder 
+
+------------------------------------------------------------------------------
+
+docker push abidsaeed/php-composer:1.0 
+this is the command to push docker image
+
 
 
 
