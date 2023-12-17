@@ -4,6 +4,9 @@
 // after write this you can ensure that X debug is installed or not
 
 
+phpinfo();
+// this will show the php configruation, here we can serach xdebug or other extesion which
+// we want to make sure it's installed or not
 
 use App\Repository\TranslationRepository;
 
@@ -15,16 +18,16 @@ $client = \Symfony\Component\Cache\Adapter\RedisAdapter::createConnection(
 
 $cacheAdapter = new \Symfony\Component\Cache\Adapter\RedisAdapter($client);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $translationCache = new \App\Cache\TranslationCache($cacheAdapter, new TranslationRepository());
-    $translation = $translationCache->findForLanguage($_POST['language'], $_POST['phrase']) ?: 'Translation not found...';
+//     $translationCache = new \App\Cache\TranslationCache($cacheAdapter, new TranslationRepository());
+//     $translation = $translationCache->findForLanguage($_POST['language'], $_POST['phrase']) ?: 'Translation not found...';
 
-} else {
+// } else {
 
-    $languageRepository = new \App\Repository\LanguageRepository();
-    $languages = $languageRepository->findAll();
-}
+//     $languageRepository = new \App\Repository\LanguageRepository();
+//     $languages = $languageRepository->findAll();
+// }
 
 ?>
 

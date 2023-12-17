@@ -30,12 +30,16 @@ services:
       # we can't use it       COPY ../app/composer.* ./   like here means we can't use ../app configs:
       dockerfile: ./php/DockerFile 
       # multi-stage build
-      target: app_dev
+      # target: app_dev
+      target: "${BUILD_TARGET:-app}"
       # here you can see that we use targe --app_dev-- it mean build
       # it wll build all the above build of the dockerFile up this build app_dve
       # I mean that the Docker build process includes all stages from the beginning 
       # of the Dockerfile up to and including the specified target stage. 
       # It doesn't skip or exclude any stages in between.
+
+      # BUILD_TARGET we have difine env varailbe wiht its default value app it means every developer
+      # locally can set it's value whatever he want for locally testing or developemtn purposes
 
 
 

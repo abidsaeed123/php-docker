@@ -24,11 +24,13 @@ docker-compose up --build -d
 
 --build means this will look for DockerFile
 
+NOTE:
+    whenever we changed in docker-compose.yaml or docker-compose file then use --build while 
+    compose start time (up)
+
 --------------------------------------------------------------------------------------------------
 
-docker-compose -f docker-compose.dev.yaml up --build -d 
-
-
+docker-compose -f docker-compose.dev.yaml  --build --env-file .env.local up -d 
 
 -f docker-compose.dev.yaml: Specifies the YAML file to be used. In this case, it's docker-compose.dev.yaml.
                                                 but if it default docker-compose.yaml then we donet need to spedifiy, 
@@ -36,8 +38,10 @@ docker-compose -f docker-compose.dev.yaml up --build -d
 
 --build: This option is used to build the images before starting the containers. It's helpful when you've made changes to your Dockerfile or the application code, 
              and you want to ensure that you are using the latest version.
-             
+
 -d: This option is used to run the containers in the background (detached mode), allowing you to continue using the terminal for other commands.
+
+--env-file: by default we use .env file but for development purpose if we have another file 
 
 
 --------------------------------------------------------------------------------------------------
@@ -64,6 +68,23 @@ $env:XDEBUG_MODE="debug"; docker compose -f docker-compose.dev.yaml up -d
 
 XDEBUG_MODE=debug: it is env variable and we have passed through command line
 it mean instead of defined variables in .env sometime we can defined them in command line
+
+
+
+____________________________________________________________________________________________________________________________________________________
+
+docker compose down
+
+this command is used stop docker
+
+Note: when you specify the file while docker start time (docker compose -f docker-compose.dev.yaml up)
+then you shoud be mention file name while stop them otherwise sometime it casue errors 
+
+docker-compose -f docker-compose.dev.yaml down
+
+
+
+
 
 __________________________________________________________________________
 
